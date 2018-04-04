@@ -11,7 +11,7 @@
     "bcdrprimarysqlserverAdminLoginPassword": "demo@pass123",
     "BCDRPrimarySiteAppPlanName": "BCDRPrimarySiteAppPlan",
     "BCDRPrimarySiteAppPlanSkuName": "S1",
-    "BCDRPaaSSecondarySiteTemplateURL": "https://raw.githubusercontent.com/deltadan/bcdr/master/BCDRPaaSSecondarySite.json",
+    "BCDRPaaSSecondarySiteTemplateURL": "https://raw.githubusercontent.com/solliancenet/bcdr/master/BCDRPaaSSecondarySite.json",
     "secondResourceGroup": "BCDRPaaSSecondarySite"
 
   },
