@@ -9,8 +9,8 @@
     }
   },
   "variables": {
-    "BCDRVnetUpdateDNSTemplateURL": "https://www.dropbox.com/s/lhf14q5rm75m4vp/BCDRVnetWithDNS.json?dl=1",
-    "BCDRIaaSSecondarySiteTemplateURL": "https://www.dropbox.com/s/w7rv6vwixphbpch/BCDRIaaSSecondarySite.json?dl=1",
+    "BCDRVnetUpdateDNSTemplateURL": "https://raw.githubusercontent.com/deltadan/bcdr/master/BCDRVnetWithDNS.json",
+    "BCDRIaaSSecondarySiteTemplateURL": "https://raw.githubusercontent.com/deltadan/bcdr/master/BCDRIaaSSecondarySite.json",
     "secondResourceGroup": "BCDRIaaSSecondarySite",
     "vnetID1": "[resourceId('Microsoft.Network/virtualNetworks', 'BCDRVNET')]",
     "BCDRVNetPrefix": "10.0.0.0/16",
@@ -100,25 +100,25 @@
     "WEBVM2NicName": "[concat(variables('WEBVM2Name'), '-NIC')]",
     "WEBVM2JoinDomainScriptFolder": ".",
     "WEBVM2JoinDomainScriptFileName": "WEBVM2JoinDomain.ps1",
-    "WEBVM2JoinDomainURL": "https://www.dropbox.com/s/d9eeuc3veh8fjyu/WEBVM2JoinDomain.ps1?dl=1",
+    "WEBVM2JoinDomainURL": "https://raw.githubusercontent.com/deltadan/bcdr/master/CustomScripts/WEBVM2JoinDomain.ps1",
     "NewForestScriptFolder": ".",
     "NewForestScriptFileName": "NewForest.ps1",
-    "NewForestURL": "https://www.dropbox.com/s/ilq63z08i6b462u/NewForest.ps1?dl=1",
+    "NewForestURL": "https://raw.githubusercontent.com/deltadan/bcdr/master/CustomScripts/NewForest.ps1",
     "SQLVM1ConfigArchiveFolder": ".",
     "SQLVM1ConfigArchiveFileName": "SQLVM1Config.zip",
-    "SQLVM1ConfigURL": "https://www.dropbox.com/s/8uq7vxniicbjjkc/SQLVM1Config.zip?dl=1",
+    "SQLVM1ConfigURL": "https://github.com/deltadan/bcdr/blob/master/CustomScripts/SQLVM1Config.zip?raw=true",
     "SQLVM1JoinDomainScriptFolder": ".",
     "SQLVM1JoinDomainScriptFileName": "SQLVM1JoinDomain.ps1",
-    "SQLVM1JoinDomainURL": "https://www.dropbox.com/s/impawxnwqm1wpg5/SQLVM1JoinDomain.ps1?dl=1",
+    "SQLVM1JoinDomainURL": "https://raw.githubusercontent.com/deltadan/bcdr/master/CustomScripts/SQLVM1JoinDomain.ps1",
     "SQLVM2ConfigArchiveFolder": ".",
     "SQLVM2ConfigArchiveFileName": "SQLVM2Config.zip",
-    "SQLVM2ConfigURL": "https://www.dropbox.com/s/xsc5wdokffa6ysu/SQLVM2Config.zip?dl=1",
+    "SQLVM2ConfigURL": "https://github.com/deltadan/bcdr/blob/master/CustomScripts/SQLVM2Config.zip?raw=true",
     "SQLVM2JoinDomainScriptFolder": ".",
     "SQLVM2JoinDomainScriptFileName": "SQLVM2JoinDomain.ps1",
-    "SQLVM2JoinDomainURL": "https://www.dropbox.com/s/x94mfbc7crtp209/SQLVM2JoinDomain.ps1?dl=1",
+    "SQLVM2JoinDomainURL": "https://raw.githubusercontent.com/deltadan/bcdr/master/CustomScripts/SQLVM2JoinDomain.ps1",
     "WEBVM1JoinDomainScriptFolder": ".",
     "WEBVM1JoinDomainScriptFileName": "WEBVM1JoinDomain.ps1",
-    "WEBVM1JoinDomainURL": "https://www.dropbox.com/s/3v5d4qlro7jz099/WEBVM1JoinDomain.ps1?dl=1"
+    "WEBVM1JoinDomainURL": "https://raw.githubusercontent.com/deltadan/bcdr/master/CustomScripts/WEBVM1JoinDomain.ps1"
   },
   "resources": [
     {

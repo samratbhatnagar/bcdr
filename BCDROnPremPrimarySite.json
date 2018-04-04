@@ -26,10 +26,10 @@
     "HyperVHost-PUBIPName": "[concat(variables('HyperVHostName'), '-PIP')]",
     "HyperVHostConfigArchiveFolder": ".",
     "HyperVHostConfigArchiveFileName": "HyperVHostConfig.zip",
-    "HyperVHostConfigURL": "https://www.dropbox.com/s/btx2cjvwsxhw6pd/HyperVHostConfig.zip?dl=1",
+    "HyperVHostConfigURL": "https://github.com/deltadan/bcdr/blob/master/CustomScripts/HyperVHostConfig.zip?raw=true",
     "HyperVHostInstallHyperVScriptFolder": ".",
     "HyperVHostInstallHyperVScriptFileName": "InstallHyperV.ps1",
-    "HyperVHostInstallHyperVURL": "https://www.dropbox.com/s/aq5pybonx1m7xre/InstallHyperV.ps1?dl=1"
+    "HyperVHostInstallHyperVURL": "https://raw.githubusercontent.com/deltadan/bcdr/master/CustomScripts/InstallHyperV.ps1"
 
   },
   "resources": [

@@ -4,7 +4,7 @@
   "parameters": {
   },
   "variables": {
-    "BCDRPrimarySiteConnection": "https://www.dropbox.com/s/llqdhdg0ocsm54d/BCDRPrimarySiteConnection.json?dl=1",
+    "BCDRPrimarySiteConnection": "https://raw.githubusercontent.com/deltadan/bcdr/master/BCDRPrimarySiteConnection.json",
     "BCDRFOVNetPrefix": "172.16.0.0/16",
     "BCDRFOVNetSubnet1Name": "GatewaySubnet",
     "BCDRFOVNetSubnet1Prefix": "172.16.0.0/24",
@@ -41,10 +41,10 @@
     "SQLVM3NicName": "[concat(variables('SQLVM3Name'), '-NIC')]",
     "SQLVM3ConfigArchiveFolder": ".",
     "SQLVM3ConfigArchiveFileName": "SQLVM3Config.zip",
-    "SQLVM3ConfigURL": "https://www.dropbox.com/s/zqv95glmorgy01m/SQLVM3Config.zip?dl=1",
+    "SQLVM3ConfigURL": "https://github.com/deltadan/bcdr/blob/master/CustomScripts/SQLVM3Config.zip?raw=true",
     "SQLVM3JoinDomainScriptFolder": ".",
     "SQLVM3JoinDomainScriptFileName": "SQLVM3JoinDomain.ps1",
-    "SQLVM3JoinDomainURL": "https://www.dropbox.com/s/xuqwmb8ir6qghqs/SQLVM3JoinDomain.ps1?dl=1",
+    "SQLVM3JoinDomainURL": "https://raw.githubusercontent.com/deltadan/bcdr/master/CustomScripts/SQLVM2JoinDomain.ps1",
     "ExternalLoadBalancerName": "WWWEXTLB",
     "ExternalLoadBalancerPublicIPName": "WWWEXTLB-PIP",
     "ExternalLoadBalancerPublicIPDNSName": "[concat('bcdrsecondarysitelb', uniqueString(resourceGroup().id))]",
