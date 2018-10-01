@@ -117,7 +117,7 @@
     "SecondaryVnetResourceGroup": "BCDRIaaSSecondarySite",
     "vNet1Name": "BCDRVNET",
     "vNet2Name": "BCDRFOVNET",
-    "vNet1tovNet2PeeringName": "[concat(variables('vNet1Name'), '/peering-to-remote-vnet')]",  
+    "vNet1tovNet2PeeringName": "[concat(variables('vNet1Name'), '/peering-to-remote-vnet')]"
   },
   "resources": [
     {
