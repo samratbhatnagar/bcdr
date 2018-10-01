@@ -4,10 +4,8 @@
   "parameters": {
   },
   "variables": {
-    "BCDRPrimarySiteConnection": "https://raw.githubusercontent.com/solliancenet/bcdr/master/BCDRPrimarySiteConnection.json",
+    "BCDRPrimarySitePeerings": "https://raw.githubusercontent.com/solliancenet/bcdr/master/BCDRPrimarySitePeerings.json",
     "BCDRFOVNetPrefix": "172.16.0.0/16",
-    "BCDRFOVNetSubnet1Name": "GatewaySubnet",
-    "BCDRFOVNetSubnet1Prefix": "172.16.0.0/24",
     "BCDRFOVNetSubnet2Name": "WEB",
     "BCDRFOVNetSubnet2Prefix": "172.16.1.0/24",
     "BCDRFOVNetSubnet3Name": "DATA",
@@ -17,14 +15,7 @@
     "vnetID1": "[resourceId('Microsoft.Network/virtualNetworks', 'BCDRFOVNET')]",
     "InternalLoadBalancerName": "SQLAOGILB",
     "InternalLoadBalancerID": "[resourceId('Microsoft.Network/loadBalancers',variables('InternalLoadBalancerName'))]",
-    "GatewayPublicIPName": "BCDRFOVNETGateway-PIP",
-    "PrimaryGatewayName": "BCDRVNETGateway",
-    "SecondaryGatewayName": "BCDRVNETFOGateway",
-    "GatewaySubnetRef": "[concat(variables('vnetID1'),'/subnets/','GatewaySubnet')]",
-    "PrimaryGatewayResourceGroup": "BCDRIaaSPrimarySite",
-    "PrimarySiteConnectionName": "BCDRVNET-to-BCDRFOVNET",
-    "SecodarySiteConnectionName": "BCDRFOVNET-to-BCDRVNET",
-    "sharedKey": "A1B2C3D4E5",
+    "PrimarySiteResourceGroup": "BCDRIaaSPrimarySite",
     "WEBAVSETName": "WEBAVSET",
     "SQLAVSETName": "SQLAVSET",
     "SQLVM3Name": "SQLVM3",
@@ -78,12 +69,6 @@
         },
         "subnets": [
           {
-            "name": "[variables('BCDRFOVNetSubnet1Name')]",
-            "properties": {
-              "addressPrefix": "[variables('BCDRFOVNetSubnet1Prefix')]"
-            }
-          },
-          {
             "name": "[variables('BCDRFOVNetSubnet2Name')]",
             "properties": {
               "addressPrefix": "[variables('BCDRFOVNetSubnet2Prefix')]"
@@ -105,93 +90,22 @@
       }
     },
     {
-      "apiVersion": "2017-10-01",
-      "type": "Microsoft.Network/publicIPAddresses",
-      "name": "[variables('gatewayPublicIPName')]",
-      "location": "[resourceGroup().location]",
-      "tags": {
-        "displayName": "Gateway Public IP"
-      },
-      "properties": {
-        "publicIPAllocationMethod": "Dynamic"
-      }
-    },
-    {
-      "apiVersion": "2017-10-01",
-      "type": "Microsoft.Network/virtualNetworkGateways",
-      "name": "[variables('SecondaryGatewayName')]",
-      "location": "[resourceGroup().location]",
-      "tags": {
-        "displayName": "Secondary Site VPN Gateway"
-      },
-      "dependsOn": [
-        "[concat('Microsoft.Network/publicIPAddresses/', variables('gatewayPublicIPName'))]",
-        "[resourceId('Microsoft.Network/virtualNetworks', 'BCDRFOVNet')]"
-      ],
-      "properties": {
-        "ipConfigurations": [
-          {
-            "properties": {
-              "privateIPAllocationMethod": "Dynamic",
-              "subnet": {
-                "id": "[variables('gatewaySubnetRef')]"
-              },
-              "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('gatewayPublicIPName'))]"
-              }
-            },
-            "name": "vnetGatewayConfig"
-          }
-        ],
-        "gatewayType": "Vpn",
-        "vpnType": "RouteBased",
-        "enableBgp": "false",
-        "sku": {
-          "name": "VpnGw1",
-          "tier": "VpnGw1"
-        }
-      }
-    },
-    {
-      "name": "BCDRPrimarySiteConnection",
+      "name": "BCDRPrimarySitePeerings",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2017-05-10",
-      "resourceGroup": "[variables('PrimaryGatewayResourceGroup')]",
+      "resourceGroup": "[variables('PrimarySiteResourceGroup')]",
       "dependsOn": [
-        "[concat('Microsoft.Network/virtualNetworkGateways/', variables('SecondaryGatewayName'))]"
+        "[concat('Microsoft.Network/virtualNetworks/', 'BCDRFOVNet')]"
       ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[variables('BCDRPrimarySiteConnection')]",
+          "uri": "[variables('BCDRPrimarySitePeerings')]",
           "contentVersion": "1.0.0.0"
         }
       }
     },
-    {
-      "apiVersion": "2017-10-01",
-      "type": "Microsoft.Network/connections",
-      "name": "[variables('SecodarySiteConnectionName')]",
-      "location": "[resourceGroup().location]",
-      "tags": {
-        "displayName": "BCDRFOVNET-BCDRVNET Connection"
-      },
-      "dependsOn": [
-        "[concat('Microsoft.Network/virtualNetworkGateways/', variables('SecondaryGatewayName'))]"
-      ],
-      "properties": {
-        "virtualNetworkGateway1": {
-          "id": "[resourceId('Microsoft.Network/virtualNetworkGateways',variables('SecondaryGatewayName'))]",
-          "location": "centralus"
-        },
-        "virtualNetworkGateway2": {
-          "id": "[resourceId(variables('PrimaryGatewayResourceGroup'), 'Microsoft.Network/virtualNetworkGateways',variables('PrimaryGatewayName'))]"
-        },
-        "connectionType": "Vnet2Vnet",
-        "sharedKey": "[variables('sharedKey')]"
-      }
-    },
-    {
+      {
       "apiVersion": "2017-10-01",
       "type": "Microsoft.Network/loadBalancers",
       "name": "[variables('InternalLoadBalancerName')]",
@@ -292,7 +206,7 @@
       "apiVersion": "2017-10-01",
       "dependsOn": [
         "[resourceId('Microsoft.Network/virtualNetworks', 'BCDRFOVNet')]",
-        "[concat('Microsoft.Network/virtualNetworkGateways/', variables('SecondaryGatewayName'))]"
+        "[concat('Microsoft.Resources/deployments/', 'BCDRPrimarySitePeerings')]"
       ],
       "tags": {
         "displayName": "SQLVM3Nic"
@@ -324,7 +238,7 @@
       "dependsOn": [
         "[resourceId('Microsoft.Network/networkInterfaces', variables('SQLVM3NicName'))]",
         "[concat('Microsoft.Compute/availabilitySets/', variables('SQLAVSETName'))]",
-        "[concat('Microsoft.Network/virtualNetworkGateways/', variables('SecondaryGatewayName'))]"
+        "[concat('Microsoft.Resources/deployments/', 'BCDRPrimarySitePeerings')]"
       ],
       "tags": {
         "displayName": "SQLVM3"
