@@ -161,6 +161,7 @@
     {
       "name": "BCDRVnetIaaSSecondaryVnet",
       "type": "Microsoft.Resources/deployments",
+      "resourceGroup": "[variables('secondResourceGroup')]",
       "apiVersion": "2017-05-10",
       "dependsOn": [
         "[resourceId('Microsoft.Network/virtualNetworks', 'BCDRVNet')]"
