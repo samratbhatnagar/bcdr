@@ -77,6 +77,6 @@
                   "id": "[resourceId(variables('PrimaryVnetResourceGroup'), 'Microsoft.Network/virtualNetworks', variables('vnet1Name'))]"
                 }
               }
-          },
+          }
     ]
 }
