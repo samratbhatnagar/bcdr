@@ -9,8 +9,8 @@
     }
   },
   "variables": {
-    "BCDRVnetUpdateDNSTemplateURL": "https://raw.githubusercontent.com/solliancenet/bcdr/master/BCDRVnetWithDNS.json",
-    "BCDRIaaSSecondarySiteTemplateURL": "https://raw.githubusercontent.com/solliancenet/bcdr/master/BCDRIaaSSecondarySite.json",
+    "BCDRVnetUpdateDNSTemplateURL": "https://raw.githubusercontent.com/solliancenet/bcdr/sept-2018-test-fix/BCDRVnetWithDNS.json",
+    "BCDRIaaSSecondarySiteTemplateURL": "https://raw.githubusercontent.com/solliancenet/bcdr/sept-2018-test-fix/BCDRIaaSSecondarySite.json",
     "secondResourceGroup": "BCDRIaaSSecondarySite",
     "vnetID1": "[resourceId('Microsoft.Network/virtualNetworks', 'BCDRVNET')]",
     "BCDRVNetPrefix": "10.0.0.0/16",
@@ -95,25 +95,25 @@
     "WEBVM2NicName": "[concat(variables('WEBVM2Name'), '-NIC')]",
     "WEBVM2JoinDomainScriptFolder": ".",
     "WEBVM2JoinDomainScriptFileName": "WEBVM2JoinDomain.ps1",
-    "WEBVM2JoinDomainURL": "https://raw.githubusercontent.com/solliancenet/bcdr/master/CustomScripts/WEBVM2JoinDomain.ps1",
+    "WEBVM2JoinDomainURL": "https://raw.githubusercontent.com/solliancenet/bcdr/sept-2018-test-fix/CustomScripts/WEBVM2JoinDomain.ps1",
     "NewForestScriptFolder": ".",
     "NewForestScriptFileName": "NewForest.ps1",
-    "NewForestURL": "https://raw.githubusercontent.com/solliancenet/bcdr/master/CustomScripts/NewForest.ps1",
+    "NewForestURL": "https://raw.githubusercontent.com/solliancenet/bcdr/sept-2018-test-fix/CustomScripts/NewForest.ps1",
     "SQLVM1ConfigArchiveFolder": ".",
     "SQLVM1ConfigArchiveFileName": "SQLVM1Config.zip",
-    "SQLVM1ConfigURL": "https://github.com/solliancenet/bcdr/blob/master/CustomScripts/SQLVM1Config.zip?raw=true",
+    "SQLVM1ConfigURL": "https://github.com/solliancenet/bcdr/blob/sept-2018-test-fix/CustomScripts/SQLVM1Config.zip?raw=true",
     "SQLVM1JoinDomainScriptFolder": ".",
     "SQLVM1JoinDomainScriptFileName": "SQLVM1JoinDomain.ps1",
-    "SQLVM1JoinDomainURL": "https://raw.githubusercontent.com/solliancenet/bcdr/master/CustomScripts/SQLVM1JoinDomain.ps1",
+    "SQLVM1JoinDomainURL": "https://raw.githubusercontent.com/solliancenet/bcdr/sept-2018-test-fix/CustomScripts/SQLVM1JoinDomain.ps1",
     "SQLVM2ConfigArchiveFolder": ".",
     "SQLVM2ConfigArchiveFileName": "SQLVM2Config.zip",
-    "SQLVM2ConfigURL": "https://github.com/solliancenet/bcdr/blob/master/CustomScripts/SQLVM2Config.zip?raw=true",
+    "SQLVM2ConfigURL": "https://github.com/solliancenet/bcdr/blob/sept-2018-test-fix/CustomScripts/SQLVM2Config.zip?raw=true",
     "SQLVM2JoinDomainScriptFolder": ".",
     "SQLVM2JoinDomainScriptFileName": "SQLVM2JoinDomain.ps1",
-    "SQLVM2JoinDomainURL": "https://raw.githubusercontent.com/solliancenet/bcdr/master/CustomScripts/SQLVM2JoinDomain.ps1",
+    "SQLVM2JoinDomainURL": "https://raw.githubusercontent.com/solliancenet/bcdr/sept-2018-test-fix/CustomScripts/SQLVM2JoinDomain.ps1",
     "WEBVM1JoinDomainScriptFolder": ".",
     "WEBVM1JoinDomainScriptFileName": "WEBVM1JoinDomain.ps1",
-    "WEBVM1JoinDomainURL": "https://raw.githubusercontent.com/solliancenet/bcdr/master/CustomScripts/WEBVM1JoinDomain.ps1"
+    "WEBVM1JoinDomainURL": "https://raw.githubusercontent.com/solliancenet/bcdr/sept-2018-test-fix/CustomScripts/WEBVM1JoinDomain.ps1"
   },
   "resources": [
     {
