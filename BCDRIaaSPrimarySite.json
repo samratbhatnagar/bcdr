@@ -11,6 +11,7 @@
   "variables": {
     "BCDRVnetUpdateDNSTemplateURL": "https://raw.githubusercontent.com/solliancenet/bcdr/sept-2018-test-fix/BCDRVnetWithDNS.json",
     "BCDRIaaSSecondarySiteTemplateURL": "https://raw.githubusercontent.com/solliancenet/bcdr/sept-2018-test-fix/BCDRIaaSSecondarySite.json",
+    "BCDRVnetIaaSSecondaryVnetTemplateURL": "https://raw.githubusercontent.com/solliancenet/bcdr/sept-2018-test-fix/BCDRIaaSecondaryVnet.json",
     "secondResourceGroup": "BCDRIaaSSecondarySite",
     "vnetID1": "[resourceId('Microsoft.Network/virtualNetworks', 'BCDRVNET')]",
     "BCDRVNetPrefix": "10.0.0.0/16",
@@ -158,13 +159,29 @@
       }
     },
     {
+      "name": "BCDRVnetIaaSSecondaryVnet",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2017-05-10",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/virtualNetworks', 'BCDRVNet')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('BCDRVnetIaaSSecondaryVnetTemplateURL')]",
+          "contentVersion": "1.0.0.0"
+        }
+      }
+    },
+    {
       "apiVersion": "2018-08-01",
       "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
       "name": "[variables('vNet1tovNet2PeeringName')]",
       "location": "[resourceGroup().location]",
       "comments": "This is the peering from BCDRVNET to BCDRFOVNET",
       "dependsOn": [
-        "[resourceId('Microsoft.Network/virtualNetworks', 'BCDRVNet')]"
+        "[resourceId('Microsoft.Network/virtualNetworks', 'BCDRVNet')]",
+        "[concat('Microsoft.Resources/deployments/', 'BCDRVnetIaaSSecondaryVnet')]"
       ],
       "properties": {
           "allowVirtualNetworkAccess": "true",

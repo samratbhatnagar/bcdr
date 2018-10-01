@@ -42,11 +42,7 @@
     "ExternalLoadBalancerfrontEndIPConfigID": "[concat(variables('ExternalLoadBalancerID'),'/frontendIPConfigurations/LoadBalancerFrontEnd')]",
     "ExternalLoadBalancerPoolID": "[concat(variables('ExternalLoadBalancerID'),'/backendAddressPools/BackendPool1')]",
     "ExternalLoadBalancerProbeID": "[concat(variables('ExternalLoadBalancerID'),'/probes/tcpProbe')]",
-    "ExternalLoadbalancerFrontEndIPConfigID": "[concat(variables('ExternalLoadbalancerID'),'/frontendIPConfigurations/LoadBalancerFrontEnd')]",
-    "PrimaryVnetResourceGroup": "BCDRIaaSPrimarySite",
-    "vNet1Name": "BCDRVNET",
-    "vNet2Name": "BCDRFOVNET",
-    "vNet2tovNet1PeeringName": "[concat(variables('vNet2Name'), '/peering-from-remote-vnet')]"
+    "ExternalLoadbalancerFrontEndIPConfigID": "[concat(variables('ExternalLoadbalancerID'),'/frontendIPConfigurations/LoadBalancerFrontEnd')]"
   },
   "resources": [
     {
@@ -93,25 +89,6 @@
       }
     },
     {
-      "apiVersion": "2018-08-01",
-      "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
-      "name": "[variables('vNet2tovNet1PeeringName')]",
-      "location": "[resourceGroup().location]",
-      "comments": "This is the peering from BCDRFOVNET to BCDRVNET",
-      "dependsOn": [
-        "[resourceId('Microsoft.Network/virtualNetworks', 'BCDRFOVNet')]"
-      ],      
-      "properties": {
-          "allowVirtualNetworkAccess": "true",
-          "allowForwardedTraffic": "false",
-          "allowGatewayTransit": "false",
-          "useRemoteGateways": "false",
-          "remoteVirtualNetwork": {
-            "id": "[resourceId(variables('PrimaryVnetResourceGroup'), 'Microsoft.Network/virtualNetworks', variables('vnet1Name'))]"
-          }
-        }
-    },
-      {
       "apiVersion": "2017-10-01",
       "type": "Microsoft.Network/loadBalancers",
       "name": "[variables('InternalLoadBalancerName')]",
