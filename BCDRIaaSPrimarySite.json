@@ -11,7 +11,7 @@
   "variables": {
     "BCDRVnetUpdateDNSTemplateURL": "https://raw.githubusercontent.com/solliancenet/bcdr/sept-2018-test-fix/BCDRVnetWithDNS.json",
     "BCDRIaaSSecondarySiteTemplateURL": "https://raw.githubusercontent.com/solliancenet/bcdr/sept-2018-test-fix/BCDRIaaSSecondarySite.json",
-    "BCDRVnetIaaSSecondaryVnetTemplateURL": "https://raw.githubusercontent.com/solliancenet/bcdr/sept-2018-test-fix/BCDRIaaSecondaryVnet.json",
+    "BCDRVnetIaaSSecondaryVnetTemplateURL": "https://raw.githubusercontent.com/solliancenet/bcdr/sept-2018-test-fix/BCDRIaaSSecondaryVnet.json",
     "secondResourceGroup": "BCDRIaaSSecondarySite",
     "vnetID1": "[resourceId('Microsoft.Network/virtualNetworks', 'BCDRVNET')]",
     "BCDRVNetPrefix": "10.0.0.0/16",
