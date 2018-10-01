@@ -8,8 +8,8 @@
     "vNet2Name": "BCDRFOVNET",
     "PrimaryVnetResourceGroup": "BCDRIaaSPrimarySite",
     "SecondaryVnetResourceGroup": "BCDRIaaSSecondarySite",
-    "vNet1tovNet2PeeringName": "Primary",
-    "vNet2tovNet1PeeringName": "Secondary"
+    "vNet1tovNet2PeeringName": "[concat(variables('vNet1Name'), '-', variables('vNet2Name'))]",
+    "vNet2tovNet1PeeringName": "[concat(variables('vNet2Name'), '-', variables('vNet1Name'))]"
   },
   "resources": [
     {
