@@ -113,7 +113,11 @@
     "SQLVM2JoinDomainURL": "https://raw.githubusercontent.com/solliancenet/bcdr/sept-2018-test-fix/CustomScripts/SQLVM2JoinDomain.ps1",
     "WEBVM1JoinDomainScriptFolder": ".",
     "WEBVM1JoinDomainScriptFileName": "WEBVM1JoinDomain.ps1",
-    "WEBVM1JoinDomainURL": "https://raw.githubusercontent.com/solliancenet/bcdr/sept-2018-test-fix/CustomScripts/WEBVM1JoinDomain.ps1"
+    "WEBVM1JoinDomainURL": "https://raw.githubusercontent.com/solliancenet/bcdr/sept-2018-test-fix/CustomScripts/WEBVM1JoinDomain.ps1",
+    "SecondaryVnetResourceGroup": "BCDRIaaSSecondarySite",
+    "vNet1Name": "BCDRVNET",
+    "vNet2Name": "BCDRFOVNET",
+    "vNet1tovNet2PeeringName": "[concat(variables('vNet1Name'), '/peering-to-remote-vnet')]",  
   },
   "resources": [
     {
@@ -153,6 +157,25 @@
         ]
       }
     },
+    {
+      "apiVersion": "2018-08-01",
+      "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+      "name": "[variables('vNet1tovNet2PeeringName')]",
+      "location": "[resourceGroup().location]",
+      "comments": "This is the peering from BCDRVNET to BCDRFOVNET",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/virtualNetworks', 'BCDRVNet')]"
+      ],
+      "properties": {
+          "allowVirtualNetworkAccess": "true",
+          "allowForwardedTraffic": "false",
+          "allowGatewayTransit": "false",
+          "useRemoteGateways": "false",
+          "remoteVirtualNetwork": {
+            "id": "[resourceId(variables('SecondaryVnetResourceGroup'), 'Microsoft.Network/virtualNetworks', variables('vnet2Name'))]"
+          }
+        }
+    },    
     {
       "name": "[variables('bcdrstorageName')]",
       "type": "Microsoft.Storage/storageAccounts",

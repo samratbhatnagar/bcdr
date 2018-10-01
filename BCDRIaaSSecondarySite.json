@@ -4,7 +4,6 @@
   "parameters": {
   },
   "variables": {
-    "BCDRPrimarySitePeerings": "https://raw.githubusercontent.com/solliancenet/bcdr/sept-2018-test-fix/BCDRPrimarySitePeerings.json",
     "BCDRFOVNetPrefix": "172.16.0.0/16",
     "BCDRFOVNetSubnet2Name": "WEB",
     "BCDRFOVNetSubnet2Prefix": "172.16.1.0/24",
@@ -43,7 +42,11 @@
     "ExternalLoadBalancerfrontEndIPConfigID": "[concat(variables('ExternalLoadBalancerID'),'/frontendIPConfigurations/LoadBalancerFrontEnd')]",
     "ExternalLoadBalancerPoolID": "[concat(variables('ExternalLoadBalancerID'),'/backendAddressPools/BackendPool1')]",
     "ExternalLoadBalancerProbeID": "[concat(variables('ExternalLoadBalancerID'),'/probes/tcpProbe')]",
-    "ExternalLoadbalancerFrontEndIPConfigID": "[concat(variables('ExternalLoadbalancerID'),'/frontendIPConfigurations/LoadBalancerFrontEnd')]"
+    "ExternalLoadbalancerFrontEndIPConfigID": "[concat(variables('ExternalLoadbalancerID'),'/frontendIPConfigurations/LoadBalancerFrontEnd')]",
+    "PrimaryVnetResourceGroup": "BCDRIaaSPrimarySite",
+    "vNet1Name": "BCDRVNET",
+    "vNet2Name": "BCDRFOVNET",
+    "vNet2tovNet1PeeringName": "[concat(variables('vNet2Name'), '/peering-from-remote-vnet')]"
   },
   "resources": [
     {
@@ -90,20 +93,23 @@
       }
     },
     {
-      "name": "BCDRPrimarySitePeerings",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2017-05-10",
-      "resourceGroup": "[variables('PrimarySiteResourceGroup')]",
+      "apiVersion": "2018-08-01",
+      "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+      "name": "[variables('vNet2tovNet1PeeringName')]",
+      "location": "[resourceGroup().location]",
+      "comments": "This is the peering from BCDRFOVNET to BCDRVNET",
       "dependsOn": [
-        "[concat('Microsoft.Network/virtualNetworks/', 'BCDRFOVNet')]"
-      ],
+        "[resourceId('Microsoft.Network/virtualNetworks', 'BCDRFOVNet')]"
+      ],      
       "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('BCDRPrimarySitePeerings')]",
-          "contentVersion": "1.0.0.0"
+          "allowVirtualNetworkAccess": "true",
+          "allowForwardedTraffic": "false",
+          "allowGatewayTransit": "false",
+          "useRemoteGateways": "false",
+          "remoteVirtualNetwork": {
+            "id": "[resourceId(variables('PrimaryVnetResourceGroup'), 'Microsoft.Network/virtualNetworks', variables('vnet1Name'))]"
+          }
         }
-      }
     },
       {
       "apiVersion": "2017-10-01",
@@ -205,8 +211,7 @@
       "location": "[resourceGroup().location]",
       "apiVersion": "2017-10-01",
       "dependsOn": [
-        "[resourceId('Microsoft.Network/virtualNetworks', 'BCDRFOVNet')]",
-        "[concat('Microsoft.Resources/deployments/', 'BCDRPrimarySitePeerings')]"
+        "[resourceId('Microsoft.Network/virtualNetworks', 'BCDRFOVNet')]"
       ],
       "tags": {
         "displayName": "SQLVM3Nic"
@@ -237,8 +242,7 @@
       "apiVersion": "2017-12-01",
       "dependsOn": [
         "[resourceId('Microsoft.Network/networkInterfaces', variables('SQLVM3NicName'))]",
-        "[concat('Microsoft.Compute/availabilitySets/', variables('SQLAVSETName'))]",
-        "[concat('Microsoft.Resources/deployments/', 'BCDRPrimarySitePeerings')]"
+        "[concat('Microsoft.Compute/availabilitySets/', variables('SQLAVSETName'))]"
       ],
       "tags": {
         "displayName": "SQLVM3"
