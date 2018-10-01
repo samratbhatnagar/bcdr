@@ -8,8 +8,8 @@
     "vNet2Name": "BCDRFOVNET",
     "PrimaryVnetResourceGroup": "BCDRIaaSPrimarySite",
     "SecondaryVnetResourceGroup": "BCDRIaaSSecondarySite",
-    "vNet1tovNet2PeeringName": "BCDRVNET-to-BCDRFOVNET",
-    "vNet2tovNet1PeeringName": "BCDRFOVNET-to-BCDRVNET"
+    "vNet1tovNet2PeeringName": "Primary-Secondary",
+    "vNet2tovNet1PeeringName": "Secondary-Primary"
   },
   "resources": [
     {
