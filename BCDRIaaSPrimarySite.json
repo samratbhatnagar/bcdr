@@ -9,13 +9,12 @@
     }
   },
   "variables": {
-    "BCDRVnetUpdateDNSTemplateURL": "https://raw.githubusercontent.com/solliancenet/bcdr/master/BCDRVnetWithDNS.json",
-    "BCDRIaaSSecondarySiteTemplateURL": "https://raw.githubusercontent.com/solliancenet/bcdr/master/BCDRIaaSSecondarySite.json",
+    "BCDRVnetUpdateDNSTemplateURL": "https://raw.githubusercontent.com/solliancenet/bcdr/sept-2018-test-fix/BCDRVnetWithDNS.json",
+    "BCDRIaaSSecondarySiteTemplateURL": "https://raw.githubusercontent.com/solliancenet/bcdr/sept-2018-test-fix/BCDRIaaSSecondarySite.json",
+    "BCDRVnetIaaSSecondaryVnetTemplateURL": "https://raw.githubusercontent.com/solliancenet/bcdr/sept-2018-test-fix/BCDRIaaSSecondaryVnet.json",
     "secondResourceGroup": "BCDRIaaSSecondarySite",
     "vnetID1": "[resourceId('Microsoft.Network/virtualNetworks', 'BCDRVNET')]",
     "BCDRVNetPrefix": "10.0.0.0/16",
-    "BCDRVNetSubnet1Name": "GatewaySubnet",
-    "BCDRVNetSubnet1Prefix": "10.0.0.0/24",
     "BCDRVNetSubnet2Name": "WEB",
     "BCDRVNetSubnet2Prefix": "10.0.1.0/24",
     "BCDRVNetSubnet3Name": "DATA",
@@ -32,9 +31,6 @@
     "ExternalLoadBalancerPoolID": "[concat(variables('ExternalLoadBalancerID'),'/backendAddressPools/BackendPool1')]",
     "ExternalLoadBalancerProbeID": "[concat(variables('ExternalLoadBalancerID'),'/probes/tcpProbe')]",
     "ExternalLoadbalancerFrontEndIPConfigID": "[concat(variables('ExternalLoadbalancerID'),'/frontendIPConfigurations/LoadBalancerFrontEnd')]",
-    "GatewayPublicIPName": "BCDRVNETGateway-PIP",
-    "PrimaryGatewayName": "BCDRVNETGateway",
-    "GatewaySubnetRef": "[concat(variables('vnetID1'),'/subnets/','GatewaySubnet')]",
     "bcdrstorageName": "[concat('bcdrstorage', uniqueString(resourceGroup().id))]",
     "bcdrstorageType": "Premium_LRS",
     "ADAVSETName": "ADAVSET",
@@ -100,25 +96,29 @@
     "WEBVM2NicName": "[concat(variables('WEBVM2Name'), '-NIC')]",
     "WEBVM2JoinDomainScriptFolder": ".",
     "WEBVM2JoinDomainScriptFileName": "WEBVM2JoinDomain.ps1",
-    "WEBVM2JoinDomainURL": "https://raw.githubusercontent.com/solliancenet/bcdr/master/CustomScripts/WEBVM2JoinDomain.ps1",
+    "WEBVM2JoinDomainURL": "https://raw.githubusercontent.com/solliancenet/bcdr/sept-2018-test-fix/CustomScripts/WEBVM2JoinDomain.ps1",
     "NewForestScriptFolder": ".",
     "NewForestScriptFileName": "NewForest.ps1",
-    "NewForestURL": "https://raw.githubusercontent.com/solliancenet/bcdr/master/CustomScripts/NewForest.ps1",
+    "NewForestURL": "https://raw.githubusercontent.com/solliancenet/bcdr/sept-2018-test-fix/CustomScripts/NewForest.ps1",
     "SQLVM1ConfigArchiveFolder": ".",
     "SQLVM1ConfigArchiveFileName": "SQLVM1Config.zip",
-    "SQLVM1ConfigURL": "https://github.com/solliancenet/bcdr/blob/master/CustomScripts/SQLVM1Config.zip?raw=true",
+    "SQLVM1ConfigURL": "https://github.com/solliancenet/bcdr/blob/sept-2018-test-fix/CustomScripts/SQLVM1Config.zip?raw=true",
     "SQLVM1JoinDomainScriptFolder": ".",
     "SQLVM1JoinDomainScriptFileName": "SQLVM1JoinDomain.ps1",
-    "SQLVM1JoinDomainURL": "https://raw.githubusercontent.com/solliancenet/bcdr/master/CustomScripts/SQLVM1JoinDomain.ps1",
+    "SQLVM1JoinDomainURL": "https://raw.githubusercontent.com/solliancenet/bcdr/sept-2018-test-fix/CustomScripts/SQLVM1JoinDomain.ps1",
     "SQLVM2ConfigArchiveFolder": ".",
     "SQLVM2ConfigArchiveFileName": "SQLVM2Config.zip",
-    "SQLVM2ConfigURL": "https://github.com/solliancenet/bcdr/blob/master/CustomScripts/SQLVM2Config.zip?raw=true",
+    "SQLVM2ConfigURL": "https://github.com/solliancenet/bcdr/blob/sept-2018-test-fix/CustomScripts/SQLVM2Config.zip?raw=true",
     "SQLVM2JoinDomainScriptFolder": ".",
     "SQLVM2JoinDomainScriptFileName": "SQLVM2JoinDomain.ps1",
-    "SQLVM2JoinDomainURL": "https://raw.githubusercontent.com/solliancenet/bcdr/master/CustomScripts/SQLVM2JoinDomain.ps1",
+    "SQLVM2JoinDomainURL": "https://raw.githubusercontent.com/solliancenet/bcdr/sept-2018-test-fix/CustomScripts/SQLVM2JoinDomain.ps1",
     "WEBVM1JoinDomainScriptFolder": ".",
     "WEBVM1JoinDomainScriptFileName": "WEBVM1JoinDomain.ps1",
-    "WEBVM1JoinDomainURL": "https://raw.githubusercontent.com/solliancenet/bcdr/master/CustomScripts/WEBVM1JoinDomain.ps1"
+    "WEBVM1JoinDomainURL": "https://raw.githubusercontent.com/solliancenet/bcdr/sept-2018-test-fix/CustomScripts/WEBVM1JoinDomain.ps1",
+    "SecondaryVnetResourceGroup": "BCDRIaaSSecondarySite",
+    "vNet1Name": "BCDRVNET",
+    "vNet2Name": "BCDRFOVNET",
+    "vNet1tovNet2PeeringName": "[concat(variables('vNet1Name'), '/peering-to-remote-vnet')]"
   },
   "resources": [
     {
@@ -137,12 +137,6 @@
           ]
         },
         "subnets": [
-          {
-            "name": "[variables('BCDRVNetSubnet1Name')]",
-            "properties": {
-              "addressPrefix": "[variables('BCDRVNetSubnet1Prefix')]"
-            }
-          },
           {
             "name": "[variables('BCDRVNetSubnet2Name')]",
             "properties": {
@@ -164,6 +158,42 @@
         ]
       }
     },
+    {
+      "name": "BCDRVnetIaaSSecondaryVnet",
+      "type": "Microsoft.Resources/deployments",
+      "resourceGroup": "[variables('secondResourceGroup')]",
+      "apiVersion": "2017-05-10",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/virtualNetworks', 'BCDRVNet')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('BCDRVnetIaaSSecondaryVnetTemplateURL')]",
+          "contentVersion": "1.0.0.0"
+        }
+      }
+    },
+    {
+      "apiVersion": "2018-08-01",
+      "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+      "name": "[variables('vNet1tovNet2PeeringName')]",
+      "location": "[resourceGroup().location]",
+      "comments": "This is the peering from BCDRVNET to BCDRFOVNET",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/virtualNetworks', 'BCDRVNet')]",
+        "[concat('Microsoft.Resources/deployments/', 'BCDRVnetIaaSSecondaryVnet')]"
+      ],
+      "properties": {
+          "allowVirtualNetworkAccess": "true",
+          "allowForwardedTraffic": "false",
+          "allowGatewayTransit": "false",
+          "useRemoteGateways": "false",
+          "remoteVirtualNetwork": {
+            "id": "[resourceId(variables('SecondaryVnetResourceGroup'), 'Microsoft.Network/virtualNetworks', variables('vnet2Name'))]"
+          }
+        }
+    },    
     {
       "name": "[variables('bcdrstorageName')]",
       "type": "Microsoft.Storage/storageAccounts",
@@ -1000,61 +1030,12 @@
       }
     },
     {
-      "apiVersion": "2017-10-01",
-      "type": "Microsoft.Network/publicIPAddresses",
-      "name": "[variables('gatewayPublicIPName')]",
-      "location": "[resourceGroup().location]",
-      "tags": {
-        "displayName": "Gateway Public IP"
-      },
-      "properties": {
-        "publicIPAllocationMethod": "Dynamic"
-      }
-    },
-    {
-      "apiVersion": "2017-10-01",
-      "type": "Microsoft.Network/virtualNetworkGateways",
-      "name": "[variables('PrimaryGatewayName')]",
-      "location": "[resourceGroup().location]",
-      "tags": {
-        "displayName": "Primary Site VPN Gateway"
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Network/virtualNetworks', 'BCDRVNet')]",
-        "[concat('Microsoft.Resources/deployments/', 'BCDRVnetUpdateDNS')]",
-        "[concat('Microsoft.Network/publicIPAddresses/', variables('gatewayPublicIPName'))]"
-      ],
-      "properties": {
-        "ipConfigurations": [
-          {
-            "properties": {
-              "privateIPAllocationMethod": "Dynamic",
-              "subnet": {
-                "id": "[variables('gatewaySubnetRef')]"
-              },
-              "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('gatewayPublicIPName'))]"
-              }
-            },
-            "name": "vnetGatewayConfig"
-          }
-        ],
-        "gatewayType": "Vpn",
-        "vpnType": "RouteBased",
-        "enableBgp": "false",
-        "sku": {
-          "name": "VpnGw1",
-          "tier": "VpnGw1"
-        }
-      }
-    },
-    {
       "name": "BCDRIaaSSecondarySite",
       "type": "Microsoft.Resources/deployments",
       "resourceGroup": "[variables('secondResourceGroup')]",
       "apiVersion": "2017-05-10",
       "dependsOn": [
-        "[concat('Microsoft.Network/virtualNetworkGateways/', variables('PrimaryGatewayName'))]"
+          "[resourceId('Microsoft.Compute/virtualMachines', variables('WEBVM2Name'))]"
       ],
       "properties": {
         "mode": "Incremental",
