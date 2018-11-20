@@ -10,10 +10,8 @@
     "BCDRFOVNetSubnet3Prefix": "172.16.2.0/24",
     "BCDRFOVNetSubnet4Name": "AD",
     "BCDRFOVNetSubnet4Prefix": "172.16.3.0/24",
-    "vnetID1": "[resourceId('Microsoft.Network/virtualNetworks', 'BCDRFOVNET')]",
     "InternalLoadBalancerName": "SQLAOGILB",
     "InternalLoadBalancerID": "[resourceId('Microsoft.Network/loadBalancers',variables('InternalLoadBalancerName'))]",
-    "PrimarySiteResourceGroup": "BCDRIaaSPrimarySite",
     "WEBAVSETName": "WEBAVSET",
     "SQLAVSETName": "SQLAVSET",
     "SQLVM3Name": "SQLVM3",
@@ -22,14 +20,10 @@
     "SQLVM3ImagePublisher": "MicrosoftSQLServer",
     "SQLVM3ImageOffer": "SQL2017-WS2016",
     "SQLVM3WindowsOSVersion": "SQLDEV",
-    "SQLVM3OSDiskName": "SQLVM3OSDisk",
     "SQLVM3VmSize": "Standard_F2s",
     "SQLVM3VnetID": "[resourceId('Microsoft.Network/virtualNetworks', 'BCDRFOVNet')]",
     "SQLVM3SubnetRef": "[concat(variables('SQLVM3VnetID'), '/subnets/', variables('BCDRFOVNetSubnet3Name'))]",
-    "SQLVM3StorageAccountContainerName": "vhds",
     "SQLVM3NicName": "[concat(variables('SQLVM3Name'), '-NIC')]",
-    "SQLVM3ConfigArchiveFolder": ".",
-    "SQLVM3ConfigArchiveFileName": "SQLVM3Config.zip",
     "SQLVM3ConfigURL": "https://github.com/solliancenet/bcdr/blob/master/CustomScripts/SQLVM3Config.zip?raw=true",
     "SQLVM3JoinDomainScriptFolder": ".",
     "SQLVM3JoinDomainScriptFileName": "SQLVM3JoinDomain.ps1",
@@ -187,7 +181,8 @@
       "location": "[resourceGroup().location]",
       "apiVersion": "2017-10-01",
       "dependsOn": [
-        "[resourceId('Microsoft.Network/virtualNetworks', 'BCDRFOVNet')]"
+        "[resourceId('Microsoft.Network/virtualNetworks', 'BCDRFOVNet')]",
+        "[resourceId('Microsoft.Network/loadBalancers',variables('InternalLoadBalancerName'))]"
       ],
       "tags": {
         "displayName": "SQLVM3Nic"
